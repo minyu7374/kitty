@@ -1,10 +1,15 @@
 #!/bin/bash
 
-alias kt='kitty +kitten'
+alias ls='ls --color=auto --hyperlink=always'
 
+alias kt='kitty +kitten'
 alias kcat='kitty +kitten icat'
 alias kssh='kitty +kitten ssh'
 alias kdiff='kitty +kitten diff'
+alias kgrep='kitty +kitten hyperlinked_grep --smart-case'
+alias kcb='kitty +kitten clipboard'
+alias kcbp='kitty +kitten clipboard -p'
+
 alias kpdf='"$HOME"/.config/kitty/termpdf.py/termpdf.py'
 
 function kplot {
@@ -18,3 +23,5 @@ function kplot {
     set output '/dev/null'
 EOF
 }
+
+alias ka=kcat kat=kcat ks=kssh kd=kdiff kg=kgrep kc=kcb kp=kplot
