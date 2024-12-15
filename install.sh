@@ -4,13 +4,14 @@ code_dir="$(cd "$(dirname "$0")" && pwd)"
 
 kitty_dir=~/.config/kitty
 mkdir -p "$kitty_dir"
+
 cd "$kitty_dir" || exit 1
-
 ln -sf "$code_dir"/*.conf "$code_dir"/*.py .
-ln -sf "$code_dir"/kitty.sh ~/.sh.d/
-
 [[ "$(uname -s)" == Darwin ]] && _os=macos || _os=gentoo
 ln -sf font_size-"${_os}".conf font_size.conf
+
+ln -sf "$code_dir"/kitty.sh ~/.sh.d/
+ln -sf "$code_dir"/kitty-tool.desktop ~/.local/share/applications/
 
 # 其他三方组件安装
 # vim-kitty-navigator

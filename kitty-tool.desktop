@@ -1,0 +1,11 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=kitty(Tool)
+GenericName=Terminal emulator
+Comment=Fast, feature-rich, GPU based terminal
+TryExec=kitty
+StartupNotify=true
+Exec=kitty --title kitty-tool --session ~/.config/kitty/session-tool.conf
+Icon=kitty
+Categories=System;TerminalEmulator;
