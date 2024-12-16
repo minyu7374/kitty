@@ -9,14 +9,15 @@ mkdir -p "$kitty_dir"
 cd "$kitty_dir" || exit 1
 ln -sf "$code_dir"/*.py .
 find "$code_dir" -maxdepth 1 -name "*.conf" ! -name "*-macos.conf" -print0 | xargs -0 ln -sf -t .
-[[ "$(uname -s)" == Darwin ]] && {
-    ln -sf "$code_dir"/*-macos.conf .
-    ln -sf font_size{-macos,}.conf
-    ln -sf open-actions{-macos,}.conf 
-}
-
 ln -sf "$code_dir"/kitty.sh ~/.sh.d/
-ln -sf "$code_dir"/kitty-tool.desktop ~/.local/share/applications/
+
+if [[ "$(uname -s)" == Darwin ]]; then
+    ln -sf "$code_dir"/*-macos.conf .
+    ln -sf kitty-ext{-macos,}.conf
+    ln -sf open-actions{-macos,}.conf 
+else
+    ln -sf "$code_dir"/kitty-tool.desktop ~/.local/share/applications/
+fi
 
 # 其他三方组件安装
 # vim-kitty-navigator
