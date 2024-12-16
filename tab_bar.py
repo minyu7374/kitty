@@ -21,12 +21,16 @@ opts = get_options()
 icon_fg = as_rgb(color_as_int(opts.color16))
 icon_bg = as_rgb(color_as_int(opts.color8))
 bat_text_color = as_rgb(color_as_int(opts.color15))
-clock_color = as_rgb(color_as_int(opts.color6))
-date_color = as_rgb(color_as_int(opts.color10))
+clock_color = as_rgb(color_as_int(opts.color12))
+date_color = as_rgb(color_as_int(opts.color14))
+hostname = gethostname()
+os = system()
 SEPARATOR_SYMBOL, SOFT_SEPARATOR_SYMBOL = ("", "")
 RIGHT_MARGIN = 1
 REFRESH_TIME = 1
-ICON = "  " if "gentoo" in gethostname().lower() else " 󰄛 "
+ICON = "  " if "gentoo" in hostname.lower() else " 󰄛 "
+# 小主机，没有电池
+BATTERY_IGNORE_HOSTS = ["Gentoo-GMK"]
 UNPLUGGED_ICONS = {
     10: "󰁺",
     20: "󰁻",
@@ -43,14 +47,18 @@ PLUGGED_ICONS = {
     1: "󰂄",
 }
 UNPLUGGED_COLORS = {
-    15: as_rgb(color_as_int(opts.color1)),
-    16: as_rgb(color_as_int(opts.color15)),
+    15: as_rgb(color_as_int(opts.color1)),  # <=15, 超低电量：红
+    16: as_rgb(color_as_int(opts.color11)),
+    30: as_rgb(color_as_int(opts.color11)),  # <=30 低电量：黄
+    31: as_rgb(color_as_int(opts.color15)),  # 电量正常, 灰色
 }
 PLUGGED_COLORS = {
     15: as_rgb(color_as_int(opts.color1)),
-    16: as_rgb(color_as_int(opts.color6)),
-    99: as_rgb(color_as_int(opts.color6)),
-    100: as_rgb(color_as_int(opts.color2)),
+    16: as_rgb(color_as_int(opts.color11)),
+    30: as_rgb(color_as_int(opts.color11)),
+    31: as_rgb(color_as_int(opts.color10)),
+    95: as_rgb(color_as_int(opts.color10)),  # <=95 正常电量充电中, 绿色
+    96: as_rgb(color_as_int(opts.color2)),  # 电量充足
 }
 
 
@@ -132,15 +140,17 @@ def _redraw_tab_bar(_):
 
 
 def get_battery_cells() -> list:
+    if hostname in BATTERY_IGNORE_HOSTS:
+        return []
     try:
-        if system() == "Darwin":
+        if os == "Darwin":
             output = check_output(["pmset", "-g", "batt"], text=True)
             battery_info = output.splitlines()[1]
 
             percentage_match = search(r'(\d+)%', battery_info)
             percent = int(percentage_match.group(1)) if percentage_match else 0
 
-            # 转化为linux上的形式
+            # 转化为linux上的格式
             if "discharging" in battery_info.lower():
                 status = "Discharging"
             elif "charging" in battery_info.lower():
@@ -152,14 +162,14 @@ def get_battery_cells() -> list:
                 status = f.read().strip()
             with open("/sys/class/power_supply/BAT0/capacity", "r") as f:
                 percent = int(f.read().strip())
-        if status == "Discharging":
+        if status == "Discharging":  # 未接通电源
             # TODO: declare the lambda once and don't repeat the code
             icon_color = UNPLUGGED_COLORS[min(UNPLUGGED_COLORS.keys(), key=lambda x: abs(x - percent))]
             icon = UNPLUGGED_ICONS[min(UNPLUGGED_ICONS.keys(), key=lambda x: abs(x - percent))]
-        elif status == "Not charging":
+        elif status == "Not charging":  # 接通电源，充满了
             icon_color = UNPLUGGED_COLORS[min(UNPLUGGED_COLORS.keys(), key=lambda x: abs(x - percent))]
             icon = PLUGGED_ICONS[min(PLUGGED_ICONS.keys(), key=lambda x: abs(x - percent))]
-        else:
+        else:  # 充电中
             icon_color = PLUGGED_COLORS[min(PLUGGED_COLORS.keys(), key=lambda x: abs(x - percent))]
             icon = PLUGGED_ICONS[min(PLUGGED_ICONS.keys(), key=lambda x: abs(x - percent))]
         percent_cell = (bat_text_color, str(percent) + "% ")
