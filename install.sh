@@ -1,4 +1,5 @@
 #!/bin/bash
+# set -x
 
 code_dir="$(cd "$(dirname "$0")" && pwd)"
 
@@ -6,9 +7,13 @@ kitty_dir=~/.config/kitty
 mkdir -p "$kitty_dir"
 
 cd "$kitty_dir" || exit 1
-ln -sf "$code_dir"/*.conf "$code_dir"/*.py .
-[[ "$(uname -s)" == Darwin ]] && _os=macos || _os=gentoo
-ln -sf font_size-"${_os}".conf font_size.conf
+ln -sf "$code_dir"/*.py .
+find "$code_dir" -maxdepth 1 -name "*.conf" ! -name "*-macos.conf" -print0 | xargs -0 ln -sf -t .
+[[ "$(uname -s)" == Darwin ]] && {
+    ln -sf "$code_dir"/*-macos.conf .
+    ln -sf font_size{-macos,}.conf
+    ln -sf open-actions{-macos,}.conf 
+}
 
 ln -sf "$code_dir"/kitty.sh ~/.sh.d/
 ln -sf "$code_dir"/kitty-tool.desktop ~/.local/share/applications/
