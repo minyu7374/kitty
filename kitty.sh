@@ -1,6 +1,7 @@
 #!/bin/bash
 
 alias ls='ls --color=auto --hyperlink=always'
+alias rg="rg --hyperlink-format=kitty --smart-case"
 
 alias kt='kitty +kitten'
 alias kcat='kitty +kitten icat'
