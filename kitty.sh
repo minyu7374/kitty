@@ -8,10 +8,10 @@ alias kcat='kitty +kitten icat'
 alias kssh='kitty +kitten ssh'
 alias kdiff='kitty +kitten diff'
 alias kgrep='kitty +kitten hyperlinked_grep --smart-case'
-alias kcb='kitty +kitten clipboard'
-alias kcbp='kitty +kitten clipboard -p'
-
+alias kcby='kitty +kitten clipboard'
+alias kcbp='kitty +kitten clipboard -g'
 alias kpdf='"$HOME"/.config/kitty/termpdf.py/termpdf.py'
+alias kgdiff='git difftool -t kitty'
 
 function kplot {
     cat <<EOF | gnuplot
@@ -25,4 +25,4 @@ function kplot {
 EOF
 }
 
-alias ka=kcat kat=kcat ks=kssh kd=kdiff kg=kgrep kc=kcb kp=kplot
+alias kat=kcat ks=kssh kd=kdiff kgd=kgdiff kg=kgrep kp=kplot
