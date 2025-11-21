@@ -12,13 +12,16 @@ find "$code_dir" -maxdepth 1 -name "*.conf" ! -name "*-macos.conf" -print0 | xar
 # ln -sf "$code_dir"/kitty.sh ~/.sh.d/
 cp -f "$code_dir"/kitty.sh ~/.sh.d/
 
+local_conf_dir="$HOME/.config"
 if [[ "$(uname -s)" == Darwin ]]; then
+    local_conf_dir="$HOME/Library/Application Support/"
     for conf_name in kitty-ext open-actions; do
         ln -sf {"$code_dir/${conf_name}-macos",$conf_name}.conf
     done
 else
     ln -sf "$code_dir"/kitty-tool.desktop ~/.local/share/applications/
 fi
+mkdir -p "$local_conf_dir" && ln -nsf {"$code_dir","$local_conf_dir"}/clock-rs
 
 # 其他三方组件安装
 # vim-kitty-navigator
