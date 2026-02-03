@@ -8,7 +8,9 @@ mkdir -p "$kitty_dir"
 
 cd "$kitty_dir" || exit 1
 ln -sf "$code_dir"/*.py .
-find "$code_dir" -maxdepth 1 -name "*.conf" ! -name "*-macos.conf" -print0 | xargs -0 ln -sf -t .
+#find "$code_dir" -maxdepth 1 -name "*.conf" ! -name "*-macos.conf" -print0 | xargs -0 ln -sf -t .
+find "$code_dir" -maxdepth 1 -name "*.conf" ! -name "*-macos.conf" -exec ln -sf {} . \;
+
 # ln -sf "$code_dir"/kitty.sh ~/.sh.d/
 cp -f "$code_dir"/kitty.sh ~/.sh.d/
 
