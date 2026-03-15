@@ -27,8 +27,13 @@ mkdir -p "$local_conf_dir" && ln -nsf {"$code_dir","$local_conf_dir"}/clock-rs
 
 # 其他三方组件安装
 # vim-kitty-navigator
-wget https://raw.githubusercontent.com/knubie/vim-kitty-navigator/refs/heads/master/get_layout.py -O get_layout.py
-wget https://raw.githubusercontent.com/knubie/vim-kitty-navigator/refs/heads/master/pass_keys.py -O pass_keys.py
+for file in get_layout.py pass_keys.py; do
+  wget https://raw.githubusercontent.com/knubie/vim-kitty-navigator/refs/heads/master/$file -O $file
+done
+# smart-splits.nvim
+for file in split_window.py neighboring_window.py relative_resize.py; do
+  wget https://raw.githubusercontent.com/mrjones2014/smart-splits.nvim/refs/heads/master/kitty/$file -O $file
+done
 
 # termpdf.py
 { [[ -d termpdf.py ]] || git clone https://github.com/dsanson/termpdf.py; } &&
