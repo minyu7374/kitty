@@ -5,8 +5,7 @@ from platform import system
 from socket import gethostname
 from datetime import datetime
 from kitty.boss import get_boss
-from kitty.fast_data_types import Screen, add_timer, get_options
-from kitty.utils import color_as_int
+from kitty.fast_data_types import Screen, add_timer
 from kitty.tab_bar import (
     DrawData,
     ExtraData,
@@ -17,14 +16,25 @@ from kitty.tab_bar import (
     draw_title,
 )
 
-opts = get_options()
-icon_fg = as_rgb(color_as_int(opts.color16))
-icon_bg = as_rgb(color_as_int(opts.color8))
-bat_text_color = as_rgb(color_as_int(opts.color15))
-clock_color = as_rgb(color_as_int(opts.color12))
-date_color = as_rgb(color_as_int(opts.color14))
+BLACK = as_rgb(0x1e1e2e)
+WHITE = as_rgb(0xcdd6f4)
+GRAY  = as_rgb(0x6c7086)
+RED    = as_rgb(0xf38ba8)
+GREEN  = as_rgb(0xa6e3a1)
+YELLOW = as_rgb(0xf9e2af)
+BLUE   = as_rgb(0x89b4fa)
+CYAN   = as_rgb(0x94e2d5)
+
+icon_fg = BLUE
+icon_bg = BLACK
+
+bat_text_color = WHITE
+clock_color = BLUE
+date_color = CYAN
+
 hostname = gethostname()
 os = system()
+
 SEPARATOR_SYMBOL, SOFT_SEPARATOR_SYMBOL = ("", "")
 RIGHT_MARGIN = 1
 REFRESH_TIME = 1
@@ -47,20 +57,19 @@ PLUGGED_ICONS = {
     1: "󰂄",
 }
 UNPLUGGED_COLORS = {
-    15: as_rgb(color_as_int(opts.color1)),  # <=15, 超低电量：红
-    16: as_rgb(color_as_int(opts.color11)),
-    30: as_rgb(color_as_int(opts.color11)),  # <=30 低电量：黄
-    31: as_rgb(color_as_int(opts.color15)),  # 电量正常, 灰色
+    15: RED,  # <=15, 超低电量：红
+    16: YELLOW,
+    30: YELLOW,  # <=30 低电量：黄
+    31: GRAY,  # 电量正常, 灰色
 }
 PLUGGED_COLORS = {
-    15: as_rgb(color_as_int(opts.color1)),
-    16: as_rgb(color_as_int(opts.color11)),
-    30: as_rgb(color_as_int(opts.color11)),
-    31: as_rgb(color_as_int(opts.color10)),
-    95: as_rgb(color_as_int(opts.color10)),  # <=95 正常电量充电中, 绿色
-    96: as_rgb(color_as_int(opts.color2)),  # 电量充足
+    15: RED,
+    16: YELLOW,
+    30: YELLOW,
+    31: GREEN,
+    95: GREEN,  # <=95 正常电量充电中, 绿色
+    96: WHITE,  # 电量充足
 }
-
 
 def _draw_icon(screen: Screen, index: int) -> int:
     if index != 1:

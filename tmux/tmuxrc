@@ -1,0 +1,73 @@
+#!/bin/bash
+
+which-command tmux >/dev/null && {
+
+export DISABLE_AUTO_TITLE="true"
+
+main_session="main"
+
+if ! tmux has-session -t ${main_session} 2>/dev/null; then
+    tmux new-session -d -s ${main_session} -n develop
+    tmux new-window -t ${main_session}:1 -n temporary
+
+    tmux split-window -t ${main_session}:0.0 -h
+    tmux split-window -t ${main_session}:0.1 -v
+    #tmux clock-mode -t ${main_session}:0.1
+    if [ "$(uname -s)" = "Darwin" ]; then
+        tmux send-keys -t ${main_session}:0.1 'env LANG=zh_CN.UTF-8 clock-rs' C-m
+    else
+        tmux send-keys -t ${main_session}:0.1 'env LANG=zh_CN.UTF-8 peaclock' C-m
+    fi
+    tmux resize-pane -t ${main_session}:0.0 -R 20
+    tmux resize-pane -t ${main_session}:0.1 -U 10
+    tmux resize-pane -t ${main_session}:0.0 -Z
+
+    tmux split-window -t ${main_session}:1.0 -h
+
+    tmux select-window -t ${main_session}:0
+    tmux select-pane -t ${main_session}:0.0
+fi
+
+tool_session="tool"
+
+if ! tmux has-session -t ${tool_session} 2>/dev/null; then
+    tmux new-session -d -s ${tool_session} -n tool
+
+    tmux split-window -t ${tool_session}:0.0 -h
+    tmux split-window -t ${tool_session}:0.1 -v
+
+    tmux send-keys -t ${tool_session}:0.0 'ghci' C-m
+    # tmux clock-mode -t ${tool_session}:0.1
+    if [ "$(uname -s)" = "Darwin" ]; then
+        tmux send-keys -t ${tool_session}:0.1 'env LANG=zh_CN.UTF-8 clock-rs -c' C-m
+    else
+        tmux send-keys -t ${tool_session}:0.1 'env LANG=zh_CN.UTF-8 peaclock' C-m
+    fi
+    tmux send-keys -t ${tool_session}:0.2 'trans -x 127.0.0.1:7892 :en+zh' C-m
+    #tmux send-keys -t ${tool_session}:0.2 '/usr/bin/trans -x 127.0.0.1:7890 :en+zh' C-m
+    # tmux send-keys -t ${tool_session}:0.2 "HTTPS_PROXY='http://127.0.0.1:7890' $HOME/.venv/bin/trans --no-clipboard --no-notification" C-m
+    # tmux send-keys -t ${tool_session}:0.2 "HTTPS_PROXY='http://127.0.0.1:7890' $HOME/.venv/bin/trans" C-m
+
+    tmux resize-pane -t ${tool_session}:0.0 -R 20
+    tmux resize-pane -t ${tool_session}:0.1 -U 10
+
+    if [ "$(uname -s)" != "Darwin" ]; then
+        tmux new-window -t ${tool_session}:1 -n monitor
+
+        tmux split-window -t ${tool_session}:1.0 -h
+        tmux split-window -t ${tool_session}:1.1 -v
+
+        # 先不回车，需要时再执行
+        tmux send-keys -t ${tool_session}:1.0 'htop' # C-m
+        tmux send-keys -t ${tool_session}:1.1 'watch grep MHz /proc/cpuinfo' # C-m
+        tmux send-keys -t ${tool_session}:1.2 'watch sensors' # C-m
+
+        tmux resize-pane -t ${tool_session}:1.0 -R 20
+        tmux resize-pane -t ${tool_session}:1.1 -U 10
+    fi
+
+    tmux select-window -t ${tool_session}:0
+    tmux select-pane -t ${tool_session}:0.0
+fi
+
+}
