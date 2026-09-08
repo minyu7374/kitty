@@ -34,3 +34,14 @@ mkdir -p "$local_conf_dir" && ln -nsf {"$code_dir","$local_conf_dir"}/clock-rs
 for file in split_window.py neighboring_window.py relative_resize.py; do
   wget https://raw.githubusercontent.com/mrjones2014/smart-splits.nvim/refs/heads/master/kitty/$file -O $file
 done
+
+printf '\nCompanion configs are not installed automatically.\n'
+
+printf '\ntmux:\n'
+printf 'Merge %s into %s.\n' "$code_dir/tmux/tmux.conf" "$HOME/.tmux.conf"
+printf 'Refer to %s for predefined session management.\n' "$code_dir/tmux/tmuxrc"
+
+printf '\nHerdr:\n'
+printf 'Merge %s into %s.\n' "$code_dir/herdr/splits.toml" "$HOME/.config/herdr/config.toml"
+printf 'Then link the smart-splits.nvim Herdr plugin:\n'
+printf '  herdr plugin link %s\n' "$HOME/.local/share/nvim/lazy/smart-splits.nvim"

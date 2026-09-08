@@ -1,0 +1,44 @@
+# Herdr window-management configuration fragment.
+# Merge these settings into ~/.config/herdr/config.toml. Do not replace the
+# complete config or append duplicate [ui] / [keys] table headers.
+#
+# Ctrl+h/j/k/l requires the smart-splits.nvim Herdr plugin:
+# herdr plugin link ~/.local/share/nvim/lazy/smart-splits.nvim
+
+[ui]
+# splits.conf uses this prefix to pass multiplexer shortcuts through kitty.
+window_title = "herdr: {hostname}: {workspace}"
+
+[keys]
+# Keep this in sync with the Ctrl+b sequences sent by splits.conf.
+prefix = "ctrl+b"
+detach = ["prefix+d", "prefix+q"]
+split_horizontal = "prefix+minus"
+split_vertical = ["prefix+v", "prefix+backslash"]
+close_pane = "prefix+x"
+zoom = "prefix+z"
+last_pane = "ctrl+backslash"
+
+[[keys.command]]
+key = "ctrl+h"
+type = "plugin_action"
+command = "smart-splits.nvim.left"
+description = "navigate left (Vim/Herdr)"
+
+[[keys.command]]
+key = "ctrl+j"
+type = "plugin_action"
+command = "smart-splits.nvim.down"
+description = "navigate down (Vim/Herdr)"
+
+[[keys.command]]
+key = "ctrl+k"
+type = "plugin_action"
+command = "smart-splits.nvim.up"
+description = "navigate up (Vim/Herdr)"
+
+[[keys.command]]
+key = "ctrl+l"
+type = "plugin_action"
+command = "smart-splits.nvim.right"
+description = "navigate right (Vim/Herdr)"
