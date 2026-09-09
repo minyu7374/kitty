@@ -43,7 +43,7 @@ if ! tmux has-session -t ${tool_session} 2>/dev/null; then
     else
         tmux send-keys -t ${tool_session}:0.1 'env LANG=zh_CN.UTF-8 peaclock' C-m
     fi
-    tmux send-keys -t ${tool_session}:0.2 'trans -x 127.0.0.1:7892 :en+zh' C-m
+    tmux send-keys -t ${tool_session}:0.2 'trans -I -play -x 127.0.0.1:7892 :en+zh' C-m
     #tmux send-keys -t ${tool_session}:0.2 '/usr/bin/trans -x 127.0.0.1:7890 :en+zh' C-m
     # tmux send-keys -t ${tool_session}:0.2 "HTTPS_PROXY='http://127.0.0.1:7890' $HOME/.venv/bin/trans --no-clipboard --no-notification" C-m
     # tmux send-keys -t ${tool_session}:0.2 "HTTPS_PROXY='http://127.0.0.1:7890' $HOME/.venv/bin/trans" C-m
