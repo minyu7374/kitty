@@ -42,6 +42,6 @@ printf 'Merge %s into %s.\n' "$code_dir/tmux/tmux.conf" "$HOME/.tmux.conf"
 printf 'Refer to %s for predefined session management.\n' "$code_dir/tmux/tmuxrc"
 
 printf '\nHerdr:\n'
-printf 'Merge %s into %s.\n' "$code_dir/herdr/splits.toml" "$HOME/.config/herdr/config.toml"
+printf 'Merge %s into %s.\n' "$code_dir/herdr/workspace-management.toml" "$HOME/.config/herdr/config.toml"
 printf 'Then link the smart-splits.nvim Herdr plugin:\n'
 printf '  herdr plugin link %s\n' "$HOME/.local/share/nvim/lazy/smart-splits.nvim"

@@ -1,4 +1,4 @@
-# Herdr window-management configuration fragment.
+# Herdr workspace-management configuration fragment.
 # Merge these settings into ~/.config/herdr/config.toml. Do not replace the
 # complete config or append duplicate [ui] / [keys] table headers.
 #
@@ -13,6 +13,15 @@ window_title = "herdr: {hostname}: {workspace}"
 # Keep this in sync with the Ctrl+b sequences sent by splits.conf.
 prefix = "ctrl+b"
 detach = ["prefix+d", "prefix+q"]
+
+# Tab actions use the plain suffix; workspace equivalents add Ctrl.
+new_workspace = ["prefix+ctrl+c", "prefix+shift+n"]
+previous_workspace = "prefix+ctrl+p"
+next_workspace = "prefix+ctrl+n"
+switch_workspace = "prefix+ctrl+1..9"
+rename_tab = ["prefix+t", "prefix+shift+t"]
+rename_workspace = ["prefix+ctrl+t", "prefix+shift+w"]
+
 split_horizontal = "prefix+minus"
 split_vertical = ["prefix+v", "prefix+backslash"]
 close_pane = "prefix+x"
