@@ -6,6 +6,6 @@ GenericName=Terminal emulator
 Comment=Fast, feature-rich, GPU based terminal
 TryExec=kitty
 StartupNotify=true
-Exec=kitty --title kitty-tool --session ~/.config/kitty/session-tool.conf
+Exec=kitty --title kitty-tool --session ~/.config/kitty/session.d/tool.conf
 Icon=kitty
 Categories=System;TerminalEmulator;

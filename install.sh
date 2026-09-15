@@ -6,6 +6,21 @@ code_dir="$(cd "$(dirname "$0")" && pwd)"
 kitty_dir=~/.config/kitty
 mkdir -p "$kitty_dir"
 
+session_tabs="${KITTY_SESSION_TABS:-main,herdr,tool}"
+IFS=',' read -r -a selected_tabs <<<"$session_tabs"
+
+(
+    herdr_added=
+    for tab_name in "${selected_tabs[@]}"; do
+        [[ "$tab_name" == herdr && "$herdr_added" ]] && continue
+        [[ "$tab_name" == herdr ]] && herdr_added=1
+        cat "$code_dir/session.d/$tab_name.conf"
+        printf '\n'
+    done
+) >"$kitty_dir/session.conf"
+
+ln -nsf "$code_dir/session.d" "$kitty_dir/session.d"
+
 cd "$kitty_dir" || exit 1
 ln -sf "$code_dir"/*.py .
 #find "$code_dir" -maxdepth 1 -name "*.conf" ! -name "*-macos.conf" -print0 | xargs -0 ln -sf -t .
@@ -32,7 +47,7 @@ mkdir -p "$local_conf_dir" && ln -nsf {"$code_dir","$local_conf_dir"}/clock-rs
 # done
 # smart-splits.nvim
 for file in split_window.py neighboring_window.py relative_resize.py; do
-  wget https://raw.githubusercontent.com/mrjones2014/smart-splits.nvim/refs/heads/master/kitty/$file -O $file
+    wget https://raw.githubusercontent.com/mrjones2014/smart-splits.nvim/refs/heads/master/kitty/$file -O $file
 done
 
 printf '\nCompanion configs are not installed automatically.\n'
