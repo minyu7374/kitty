@@ -3,7 +3,7 @@
 # complete config or append duplicate [ui] / [keys] table headers.
 #
 # Ctrl+h/j/k/l requires the smart-splits.nvim Herdr plugin:
-# herdr plugin link ~/.local/share/nvim/lazy/smart-splits.nvim
+# bash /path/to/kitty/herdr/install.sh
 
 [ui]
 # splits.conf uses this prefix to pass multiplexer shortcuts through kitty.

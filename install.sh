@@ -10,10 +10,7 @@ session_tabs="${KITTY_SESSION_TABS:-main,herdr,tool}"
 IFS=',' read -r -a selected_tabs <<<"$session_tabs"
 
 (
-    herdr_added=
     for tab_name in "${selected_tabs[@]}"; do
-        [[ "$tab_name" == herdr && "$herdr_added" ]] && continue
-        [[ "$tab_name" == herdr ]] && herdr_added=1
         cat "$code_dir/session.d/$tab_name.conf"
         printf '\n'
     done
@@ -45,10 +42,7 @@ mkdir -p "$local_conf_dir" && ln -nsf {"$code_dir","$local_conf_dir"}/clock-rs
 # for file in get_layout.py pass_keys.py; do
 #   wget https://raw.githubusercontent.com/knubie/vim-kitty-navigator/refs/heads/master/$file -O $file
 # done
-# smart-splits.nvim
-for file in split_window.py neighboring_window.py relative_resize.py; do
-    wget https://raw.githubusercontent.com/mrjones2014/smart-splits.nvim/refs/heads/master/kitty/$file -O $file
-done
+# smart-splits v3 通过 socket 通信；Shell 方向缩放使用仓库内的 relative_resize.py。
 
 printf '\nCompanion configs are not installed automatically.\n'
 
@@ -58,5 +52,5 @@ printf 'Refer to %s for predefined session management.\n' "$code_dir/tmux/tmuxrc
 
 printf '\nHerdr:\n'
 printf 'Merge %s into %s.\n' "$code_dir/herdr/workspace-management.toml" "$HOME/.config/herdr/config.toml"
-printf 'Then link the smart-splits.nvim Herdr plugin:\n'
-printf '  herdr plugin link %s\n' "$HOME/.local/share/nvim/lazy/smart-splits.nvim"
+printf 'Install the shared smart-splits v3 backend and Herdr navigation plugin:\n'
+printf '  bash %s\n' "$code_dir/herdr/install.sh"
