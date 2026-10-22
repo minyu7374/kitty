@@ -29,6 +29,12 @@ zoom = "prefix+z"
 last_pane = "ctrl+backslash"
 
 [[keys.command]]
+key = "prefix+ctrl+l"
+type = "shell"
+command = '"${HERDR_BIN_PATH:-herdr}" pane send-keys "$HERDR_ACTIVE_PANE_ID" ctrl+l'
+description = "clear screen (shell)"
+
+[[keys.command]]
 key = "ctrl+h"
 type = "plugin_action"
 command = "smart-splits.nvim.left"
