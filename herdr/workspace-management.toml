@@ -14,13 +14,17 @@ window_title = "herdr: {hostname}: {workspace}"
 prefix = "ctrl+b"
 detach = ["prefix+d", "prefix+q"]
 
-# Tab actions use the plain suffix; workspace equivalents add Ctrl.
+# Creation, switching, and renaming use plain suffixes for tabs and Ctrl for workspaces.
 new_workspace = ["prefix+ctrl+c", "prefix+shift+n"]
 previous_workspace = "prefix+ctrl+p"
 next_workspace = "prefix+ctrl+n"
 switch_workspace = "prefix+ctrl+1..9"
 rename_tab = ["prefix+t", "prefix+shift+t"]
 rename_workspace = ["prefix+ctrl+t", "prefix+shift+w"]
+
+# Keep Ctrl held after the prefix when closing tabs or workspaces.
+close_tab = "prefix+ctrl+x"
+close_workspace = "prefix+ctrl+d"
 
 split_horizontal = "prefix+minus"
 split_vertical = ["prefix+v", "prefix+backslash"]
